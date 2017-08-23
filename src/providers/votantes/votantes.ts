@@ -5,14 +5,14 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class VotantesProvider {
 
-  private _baseUrl: string = '';
+  private _baseUrl: string = 'https://2417a710.ngrok.io';
 
   constructor(private http: Http) {
     
   }
 
   getUsers() {
-    let url = this._baseUrl + '/votantes';
+    let url = this._baseUrl + '/servicioBingo/';
     return this.http.get(url).map(res => res.json());
   }
 

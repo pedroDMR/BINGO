@@ -10,28 +10,17 @@ import { VotantesProvider } from '../../providers/votantes/votantes';
 })
 export class HomePage {
 
-  public users: Array<any> = [
-    {name: 'Aarón López Sosa', img: 'assets/img/user_avatar.png'},
-    {name: 'Aarón López Sosa', img: 'assets/img/user_avatar.png'},
-    {name: 'Aarón López Sosa', img: 'assets/img/user_avatar.png'},
-    {name: 'Aarón López Sosa', img: 'assets/img/user_avatar.png'},
-    {name: 'Aarón López Sosa', img: 'assets/img/user_avatar.png'},
-    {name: 'Aarón López Sosa', img: 'assets/img/user_avatar.png'},
-    {name: 'Aarón López Sosa', img: 'assets/img/user_avatar.png'},
-    {name: 'Aarón López Sosa', img: 'assets/img/user_avatar.png'},
-    // {name: 'Aarón López Sosa', img: 'assets/img/user_avatar.png'},
-    // {name: 'Aarón López Sosa', img: 'assets/img/user_avatar.png'},
-    // {name: 'Aarón López Sosa', img: 'assets/img/user_avatar.png'},
-  ]
+  public users: Array<any>;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, 
               public loadingCtrl: LoadingController, private votantesPrv: VotantesProvider) {
-
+  
+    this.loadUsers();
   }
 
   loadUsers() {
     this.votantesPrv.getUsers().subscribe(response => {
-      console.log(response);
+      this.users = response;
     });
   }
 
