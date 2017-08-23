@@ -1,13 +1,13 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>Bingo</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   
   <ion-list>
-    <ion-item-sliding *ngFor="let item of users">
+    <ion-item-sliding *ngFor="let item of users" #slidingItem>
       <ion-item>
         <ion-avatar item-start>
           <img src="{{ item.img }}">
@@ -15,7 +15,7 @@
         <h2>{{ item.name }}</h2>
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button color="secondary" (click)="checkUser(item)">
+        <button ion-button color="secondary" (click)="checkUser(item, slidingItem)">
           <ion-icon name="checkmark"></ion-icon>
         </button>
       </ion-item-options>

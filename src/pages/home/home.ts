@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, IonicPage, AlertController, LoadingController } from 'ionic-angular';
+import { NavController, IonicPage, AlertController, LoadingController, ItemSliding } from 'ionic-angular';
+
+import { VotantesProvider } from '../../providers/votantes/votantes';
 
 @IonicPage()
 @Component({
@@ -22,18 +24,25 @@ export class HomePage {
     // {name: 'Aarón López Sosa', img: 'assets/img/user_avatar.png'},
   ]
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, 
+              public loadingCtrl: LoadingController, private votantesPrv: VotantesProvider) {
 
   }
 
-  checkUser(item): void {
+  loadUsers() {
+    this.votantesPrv.getUsers().subscribe(response => {
+      console.log(response);
+    });
+  }
+
+  checkUser(item, slidingItem: ItemSliding): void {
     let alert = this.alertCtrl.create({
       title: 'Bingo',
       message: '¿Confirmar voto?',
       buttons: [
         {
           text: 'Cancelar',
-          handler: data => { console.log('Cancelado'); }
+          handler: data => { slidingItem.close(); }
         },
         {
           text: 'Aceptar',

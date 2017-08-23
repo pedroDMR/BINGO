@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Nuevo votante</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  
+  <form [formGroup]="userFormGroup" (ngSubmit)="saveUser()">
+    
+    <ion-list>
+
+      <ion-item>
+        <ion-input formControlName="clave" type="text" placeholder="Clave de elector"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input formControlName="nombre" type="text" placeholder="Nombre"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input formControlName="paterno" type="text" placeholder="Apellido paterno"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input formControlName="materno" type="text" placeholder="Apellido materno"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input formControlName="telefono" type="tel" placeholder="Teléfono"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-textarea formControlName="domicilio" placeholder="Domicilio"></ion-textarea>
+      </ion-item>
+
+    </ion-list>
+    
+    <button ion-button type="submit" [disabled]="userFormGroup.invalid"  color="formButtonCOlor">Guardar</button>
+    
+  </form>
+  
+</ion-content>
