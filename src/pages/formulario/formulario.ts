@@ -46,9 +46,9 @@ export class FormularioPage {
             this.userFormGroup.reset();
             this.showLoading();
             console.log(JSON.stringify(this.userFormGroup.value));
-            this.votantesPrv.addUser(JSON.stringify(this.userFormGroup.valid)).subscribe(response => {
-              console.log(response);
-            });
+            // this.votantesPrv.addUser(JSON.stringify(this.userFormGroup.valid)).subscribe(response => {
+            //   console.log(response);
+            // });
           }
         }
       ]

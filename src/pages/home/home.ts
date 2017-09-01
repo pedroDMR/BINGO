@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, IonicPage, AlertController, LoadingController, ItemSliding } from 'ionic-angular';
+import { 
+  NavController, 
+  IonicPage, 
+  AlertController, 
+  LoadingController, 
+  Loading,
+  ItemSliding, 
+  ToastController } from 'ionic-angular';
 
 import { VotantesProvider } from '../../providers/votantes/votantes';
 
@@ -14,9 +21,12 @@ export class HomePage {
   public usersQuery: Array<any> = [];
   private swiped: Boolean = false;
   searchQuery: string = '';
+  private load:  Loading;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, 
-              public loadingCtrl: LoadingController, private votantesPrv: VotantesProvider) {
+              public loadingCtrl: LoadingController,
+              public toastCtrl: ToastController,
+              private votantesPrv: VotantesProvider) {
   
     // this.loadUsers();
   }
@@ -26,9 +36,15 @@ export class HomePage {
   }
 
   loadUsers() {
+    this.load = this.loadingCtrl.create({
+      content: 'Cargando usuarios...',
+    });
+    this.load.present();
+
     this.votantesPrv.getUsers().subscribe(response => {      
       this.users = response;
       this.usersQuery = this.users;
+      this.load.dismiss();
     });
   }
 
@@ -53,11 +69,22 @@ export class HomePage {
         {
           text: 'Aceptar',
           handler: data => { 
+
             this.showLoading();
             var index = this.users.indexOf(item);
-            console.log(this.users);
             this.users.splice(index, 1);
-            console.log(this.users);
+
+            this.votantesPrv.updateUser(item.id).subscribe(response => {
+              console.log('Respuesta del servidor:')
+              console.log(response);
+              let toast = this.toastCtrl.create({
+                message: 'El usuario ha votado',
+                duration: 2000,
+                position: 'bottom'
+              });
+              toast.present();
+            });
+
             this.swiped = false;
           }
         }

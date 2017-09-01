@@ -1,18 +1,19 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Bingo Total: {{ users.length }}</ion-title>
+  </ion-navbar>
+  <ion-toolbar>
     <ion-searchbar 
     [(ngModel)]="searchQuery"
     placeholder="Buscar"
     (ionInput)="searchUser($event)"></ion-searchbar>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
   
-  <ion-list text-wrap>
-    <ion-item-sliding *ngFor="let item of users" #slidingItem (ionDrag)="onDrag($event, item, slidingItem)">
+  <ion-list text-wrap [virtualScroll]="users">
+    <ion-item-sliding *virtualItem="let item" #slidingItem (ionDrag)="onDrag($event, item, slidingItem)">
       <ion-item> 
         <ion-avatar item-start>
           <img [src]="getImage(item)">

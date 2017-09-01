@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class VotantesProvider {
 
-  private _baseUrl: string = 'https://934a2747.ngrok.io';
+  private _baseUrl: string = 'https://cc22b0ed.ngrok.io';
 
   constructor(private http: Http) {
     
@@ -17,9 +17,10 @@ export class VotantesProvider {
     return this.http.get('assets/bingo.json').map(res => res.json());
   }
 
-  addUser(user) {
-    let url = this._baseUrl + '/userAdd';
-    return this.http.post(url, user).map(res => res.json());
+  updateUser(user_id: number) {
+    let body = {id: user_id};
+    let url = this._baseUrl + '/servicioBingo/svcBingoForm.jsp';
+    return this.http.post(url, body).map(res => res.json());
   }
 
 }
