@@ -12,8 +12,9 @@ export class VotantesProvider {
   }
 
   getUsers() {
-    let url = this._baseUrl + '/servicioBingo/';
-    return this.http.get(url).map(res => res.json());
+    // let url = this._baseUrl + '/servicioBingo/';
+    // return this.http.get(url).map(res => res.json());
+    return this.http.get('assets/bingo.json').map(res => res.json());
   }
 
   addUser(user) {

@@ -10,7 +10,7 @@ import { VotantesProvider } from '../../providers/votantes/votantes';
 })
 export class HomePage {
 
-  public users: Array<any>;
+  public users: Array<any> = [];
   public usersQuery: Array<any> = [];
   private swiped: Boolean = false;
   searchQuery: string = '';
@@ -18,11 +18,15 @@ export class HomePage {
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, 
               public loadingCtrl: LoadingController, private votantesPrv: VotantesProvider) {
   
+    // this.loadUsers();
+  }
+
+  ionViewDidEnter() {
     this.loadUsers();
   }
 
   loadUsers() {
-    this.votantesPrv.getUsers().subscribe(response => {
+    this.votantesPrv.getUsers().subscribe(response => {      
       this.users = response;
       this.usersQuery = this.users;
     });
@@ -54,6 +58,7 @@ export class HomePage {
             console.log(this.users);
             this.users.splice(index, 1);
             console.log(this.users);
+            this.swiped = false;
           }
         }
       ]
