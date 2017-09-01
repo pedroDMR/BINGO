@@ -6,17 +6,24 @@
 
 <ion-content>
   
-  <ion-list>
-    <ion-item-sliding *ngFor="let item of users" #slidingItem>
-      <ion-item>
+  <ion-list text-wrap>
+    <ion-item-sliding *ngFor="let item of users" #slidingItem (ionDrag)="onDrag($event, item, slidingItem)">
+      <ion-item> 
         <ion-avatar item-start>
           <img src="assets/img/user_avatar.png">
         </ion-avatar>
         <h2>{{ item.nombre }}</h2>
+        <div>
+          <p>Clave</p>
+          <p>Dirección</p>
+        </div>
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button color="secondary" (click)="checkUser(item, slidingItem)">
+        <!-- <button ion-button color="secondary" (click)="checkUser(item, slidingItem)">
           <ion-icon name="checkmark"></ion-icon>
+        </button> -->
+        <button ion-button clear>
+          
         </button>
       </ion-item-options>
     </ion-item-sliding>

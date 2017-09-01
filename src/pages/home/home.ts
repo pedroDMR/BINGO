@@ -11,6 +11,7 @@ import { VotantesProvider } from '../../providers/votantes/votantes';
 export class HomePage {
 
   public users: Array<any>;
+  private swiped: Boolean = false;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, 
               public loadingCtrl: LoadingController, private votantesPrv: VotantesProvider) {
@@ -24,6 +25,15 @@ export class HomePage {
     });
   }
 
+  onDrag(ev, item, slidingItem: ItemSliding) {
+    let percent = ev.getSlidingPercent();
+    
+    if (percent > 1 && !this.swiped) {
+      this.swiped = true;
+      this.checkUser(item, slidingItem);
+    }
+  }
+
   checkUser(item, slidingItem: ItemSliding): void {
     let alert = this.alertCtrl.create({
       title: 'Bingo',
@@ -31,7 +41,7 @@ export class HomePage {
       buttons: [
         {
           text: 'Cancelar',
-          handler: data => { slidingItem.close(); }
+          handler: data => { slidingItem.close(); this.swiped = false; }
         },
         {
           text: 'Aceptar',
