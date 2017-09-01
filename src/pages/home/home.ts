@@ -11,7 +11,9 @@ import { VotantesProvider } from '../../providers/votantes/votantes';
 export class HomePage {
 
   public users: Array<any>;
+  public usersQuery: Array<any> = [];
   private swiped: Boolean = false;
+  searchQuery: string = '';
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, 
               public loadingCtrl: LoadingController, private votantesPrv: VotantesProvider) {
@@ -22,6 +24,7 @@ export class HomePage {
   loadUsers() {
     this.votantesPrv.getUsers().subscribe(response => {
       this.users = response;
+      this.usersQuery = this.users;
     });
   }
 
@@ -64,5 +67,20 @@ export class HomePage {
       duration: 1000
     });
     loading.present();
+  }
+
+  getImage(item): string {
+    return (item.genero === 'H') ? 'assets/img/user_avatar.png' : 'assets/img/user_female.png';
+  }
+
+  searchUser(ev: any) {
+    this.users = this.usersQuery;
+    this.searchQuery = ev.target.value;
+
+    if (this.searchQuery && this.searchQuery.trim() != '') {
+      this.users = this.users.filter((item) => {
+        return (item.nombre.toLowerCase().indexOf(this.searchQuery.toLowerCase()) > -1);
+      });
+    }
   }
 }

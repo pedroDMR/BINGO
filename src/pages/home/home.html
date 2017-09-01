@@ -1,29 +1,30 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Bingo</ion-title>
+    <ion-searchbar 
+    [(ngModel)]="searchQuery"
+    placeholder="Buscar"
+    (ionInput)="searchUser($event)"></ion-searchbar>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+
   
   <ion-list text-wrap>
     <ion-item-sliding *ngFor="let item of users" #slidingItem (ionDrag)="onDrag($event, item, slidingItem)">
       <ion-item> 
         <ion-avatar item-start>
-          <img src="assets/img/user_avatar.png">
+          <img [src]="getImage(item)">
         </ion-avatar>
         <h2>{{ item.nombre }}</h2>
         <div>
-          <p>Clave</p>
-          <p>Dirección</p>
+          <p>Clave: {{ item.clave_elector }}</p>
+          <p>Dirección: {{ item.direccion }}</p>
         </div>
       </ion-item>
       <ion-item-options side="right">
-        <!-- <button ion-button color="secondary" (click)="checkUser(item, slidingItem)">
-          <ion-icon name="checkmark"></ion-icon>
-        </button> -->
         <button ion-button clear>
-          
         </button>
       </ion-item-options>
     </ion-item-sliding>
