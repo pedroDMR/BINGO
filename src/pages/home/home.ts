@@ -44,15 +44,28 @@ export class HomePage {
     if (localStorage.getItem('users')) {
 
       this.users = JSON.parse(localStorage.getItem('users'));
+
+      this.users = this.users.filter((item) => {
+        return item.voto == 'N';
+      });
+
       this.usersQuery = this.users;
       this.load.dismiss();
-      console.log('cargados desde locaStorage');
 
     } else {
       
       this.votantesPrv.getUsers().subscribe(response => {      
         console.log('cargados desde el archivo..');
         this.users = response;
+
+        console.log(this.users.length);
+        
+        this.users = this.users.filter((item) => {
+          return item.voto == 'N';
+        });
+
+        console.log(this.users.length);
+
         this.usersQuery = this.users;
         localStorage.setItem('users', JSON.stringify(response));
         this.load.dismiss();
@@ -85,18 +98,32 @@ export class HomePage {
           handler: data => { 
 
             this.showLoading();
-            var index = this.users.indexOf(item);
+            var index = this.users.indexOf(item);         
+
+            /* 
+              Se obtiene la lista de usuarios almacenada en localStorage 
+              Después se procede a encontrar el index dentro de dicha lista del elemento 
+              que se desea actualizar.
+              Se actualiza el elemento              
+              Se guarda la lista actualizada en localStorage
+            */
+            let u: Array<any>  = JSON.parse(localStorage.getItem('users'));
+            var i = u.findIndex((el) => { return el.id == item.id; });
+            u[i].voto = 'S';
+            localStorage.setItem('users', JSON.stringify(u));
+
+            // Se procede a eliminar el elemento de la lista users
             this.users.splice(index, 1);
 
-            this.votantesPrv.updateUser(item.id).subscribe(response => {
+            // this.votantesPrv.updateUser(item.id).subscribe(response => {
               
-              let toast = this.toastCtrl.create({
-                message: 'El usuario ha votado',
-                duration: 2000,
-                position: 'bottom'
-              });
-              toast.present();
-            });
+            //   let toast = this.toastCtrl.create({
+            //     message: 'El usuario ha votado',
+            //     duration: 2000,
+            //     position: 'bottom'
+            //   });
+            //   toast.present();
+            // });
 
             this.swiped = false;
           }
@@ -128,4 +155,5 @@ export class HomePage {
       });
     }
   }
+
 }
