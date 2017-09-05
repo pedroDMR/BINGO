@@ -41,11 +41,25 @@ export class HomePage {
     });
     this.load.present();
 
-    this.votantesPrv.getUsers().subscribe(response => {      
-      this.users = response;
+    if (localStorage.getItem('users')) {
+
+      this.users = JSON.parse(localStorage.getItem('users'));
       this.usersQuery = this.users;
       this.load.dismiss();
-    });
+      console.log('cargados desde locaStorage');
+
+    } else {
+      
+      this.votantesPrv.getUsers().subscribe(response => {      
+        console.log('cargados desde el archivo..');
+        this.users = response;
+        this.usersQuery = this.users;
+        localStorage.setItem('users', JSON.stringify(response));
+        this.load.dismiss();
+      });
+
+    }
+
   }
 
   onDrag(ev, item, slidingItem: ItemSliding) {
@@ -75,8 +89,7 @@ export class HomePage {
             this.users.splice(index, 1);
 
             this.votantesPrv.updateUser(item.id).subscribe(response => {
-              console.log('Respuesta del servidor:')
-              console.log(response);
+              
               let toast = this.toastCtrl.create({
                 message: 'El usuario ha votado',
                 duration: 2000,

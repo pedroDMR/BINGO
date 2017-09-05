@@ -14,7 +14,7 @@
   
   <ion-list text-wrap [virtualScroll]="users">
     <ion-item-sliding *virtualItem="let item" #slidingItem (ionDrag)="onDrag($event, item, slidingItem)">
-      <ion-item> 
+      <ion-item *ngIf="item.voto == 'N'"> 
         <ion-avatar item-start>
           <img [src]="getImage(item)">
         </ion-avatar>
@@ -24,7 +24,7 @@
           <p>Dirección: {{ item.direccion }}</p>
         </div>
       </ion-item>
-      <ion-item-options side="right">
+      <ion-item-options side="right" *ngIf="item.voto == 'N'">
         <button ion-button clear>
         </button>
       </ion-item-options>
