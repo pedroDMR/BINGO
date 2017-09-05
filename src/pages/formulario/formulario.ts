@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Loading } from 'ionic-angular';
 
 import { VotantesProvider } from '../../providers/votantes/votantes';
 
@@ -12,6 +12,7 @@ import { VotantesProvider } from '../../providers/votantes/votantes';
 export class FormularioPage {
 
   public userFormGroup: FormGroup;
+  private loading: Loading;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public fb: FormBuilder,
               public alertCtrl: AlertController, public loadingCtrl: LoadingController,
@@ -25,12 +26,13 @@ export class FormularioPage {
 
   loadForm() {
     this.userFormGroup = this.fb.group({
-      clave: ['', Validators.required],
+      clave_elector: ['', Validators.required],
       nombre: ['', Validators.required],
-      paterno: ['', Validators.required],
-      materno: ['', Validators.required],
-      telefono: ['', Validators.required],
-      domicilio: ['', Validators.required]
+      ap_paterno: ['', Validators.required],
+      ap_materno: ['', Validators.required],
+      numero_cel: ['', Validators.required],
+      domicilio: ['', Validators.required],
+      genero: ['', Validators.required]
     })
   }
 
@@ -43,9 +45,15 @@ export class FormularioPage {
         {
           text: 'Aceptar',
           handler: data => {
-            this.userFormGroup.reset();
+            
+            // this.userFormGroup.reset();
+            console.log(this.userFormGroup.value);
             this.showLoading();
-            console.log(JSON.stringify(this.userFormGroup.value));
+            this.votantesPrv.addUser(this.userFormGroup.value).subscribe(response => {
+              console.log(response);
+              this.userFormGroup.reset();
+              this.loading.dismiss();
+            });
             // this.votantesPrv.addUser(JSON.stringify(this.userFormGroup.valid)).subscribe(response => {
             //   console.log(response);
             // });
@@ -58,11 +66,11 @@ export class FormularioPage {
   }
 
   showLoading() {
-    let loading = this.loadingCtrl.create({
+    this.loading = this.loadingCtrl.create({
       content: 'Guardando...',
       duration: 1000
     });
-    loading.present();
+    this.loading.present();
   }
 
 }

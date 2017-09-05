@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Bingo Total: {{ users.length }}</ion-title>
+    <ion-title>Bingo Votantes: {{ users.length }}</ion-title>
   </ion-navbar>
   <ion-toolbar>
     <ion-searchbar 
@@ -20,7 +20,7 @@
         </ion-avatar>
         <h2>{{ item.nombre }}</h2>
         <div>
-          <p>Clave: {{ item.clave_elector }}</p>
+          <p>C. Elector: {{ item.clave_elector }}</p>
           <p>Dirección: {{ item.direccion }}</p>
         </div>
       </ion-item>

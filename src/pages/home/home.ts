@@ -115,15 +115,15 @@ export class HomePage {
             // Se procede a eliminar el elemento de la lista users
             this.users.splice(index, 1);
 
-            // this.votantesPrv.updateUser(item.id).subscribe(response => {
-              
-            //   let toast = this.toastCtrl.create({
-            //     message: 'El usuario ha votado',
-            //     duration: 2000,
-            //     position: 'bottom'
-            //   });
-            //   toast.present();
-            // });
+            this.votantesPrv.updateUser(item.id).subscribe(response => {
+              console.log(response);
+              let toast = this.toastCtrl.create({
+                message: 'El usuario ha votado',
+                duration: 2000,
+                position: 'bottom'
+              });
+              toast.present();
+            });
 
             this.swiped = false;
           }
