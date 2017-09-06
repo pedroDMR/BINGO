@@ -1,6 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, Loading } from 'ionic-angular';
+import { 
+  IonicPage, 
+  NavController, 
+  NavParams, 
+  AlertController, 
+  LoadingController, 
+  Loading,
+  ToastController } from 'ionic-angular';
 
 import { VotantesProvider } from '../../providers/votantes/votantes';
 
@@ -14,8 +21,12 @@ export class FormularioPage {
   public userFormGroup: FormGroup;
   private loading: Loading;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public fb: FormBuilder,
-              public alertCtrl: AlertController, public loadingCtrl: LoadingController,
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public fb: FormBuilder,
+              public alertCtrl: AlertController, 
+              public loadingCtrl: LoadingController,
+              public toastCtrl: ToastController,
               private votantesPrv: VotantesProvider) {
     this.loadForm();
   }
@@ -48,15 +59,34 @@ export class FormularioPage {
             
             // this.userFormGroup.reset();
             console.log(this.userFormGroup.value);
-            this.showLoading();
-            this.votantesPrv.addUser(this.userFormGroup.value).subscribe(response => {
+            // this.showLoading();
+            this.votantesPrv.registro(this.userFormGroup.value).subscribe(response => {
+              
               console.log(response);
-              this.userFormGroup.reset();
-              this.loading.dismiss();
+              var message = 'Se ha registrado';
+
+              var j = null;
+
+              try { j = response.json(); } 
+              catch (error) { } 
+
+              console.log(j);
+
+              if (response.status == 200 && j != null) {
+                this.userFormGroup.reset();              
+              } else {
+                message = 'Inténtelo de nuevo';
+              }
+
+              let toast = this.toastCtrl.create({
+                duration: 2000,
+                message: message,
+                position: 'bottom'
+              })
+              toast.present();
+
             });
-            // this.votantesPrv.addUser(JSON.stringify(this.userFormGroup.valid)).subscribe(response => {
-            //   console.log(response);
-            // });
+            
           }
         }
       ]

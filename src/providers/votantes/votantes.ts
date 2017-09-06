@@ -17,15 +17,24 @@ export class VotantesProvider {
     return this.http.get('assets/bingo.json').map((res) => res.json());
   }
 
-  addUser(body) {
-    let url = this._baseUrl + '/servicioBingo/svcNewBingo';
-    return this.http.post(url, body);
-  }
+  // addUser(id: number) {
+  //   let url = this._baseUrl + '/servicioBingo/svcBingo?id=' + id;
+  //   return this.http.get(url).map(res => res.json());
+  // }
 
   updateUser(user_id: number) {
     let url = this._baseUrl + '/servicioBingo/svcBingo?id=' + user_id;
     console.log(url);
     return this.http.get(url).map(res => res.json());
+  }
+
+  registro(params) {
+    let url = this._baseUrl + '/servicioBingo/svcNewBingo?clave_elector=' + params.clave_elector;
+    url += '&nombre=' + params.nombre + '&ap_paterno=' + params.ap_paterno; 
+    url += '&ap_materno=' + params.ap_materno + '&numero_cel=' + params.numero_cel;
+    url += '&genero=' + params.genero + '&domicilio=' + params.domicilio;
+    console.log(url);
+    return this.http.get(url);
   }
 
 }
