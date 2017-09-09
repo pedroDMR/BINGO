@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { VotantesProvider } from '../../providers/votantes/votantes';
 
 @IonicPage()
 @Component({
@@ -17,7 +18,8 @@ export class LoginPage {
     public navCtrl: NavController, 
     public navParams: NavParams, 
     private fb: FormBuilder, 
-    private loadingCtrl: LoadingController) {
+    private loadingCtrl: LoadingController,
+    private votantes: VotantesProvider) {
 
     this.loadForm();
   }
@@ -34,13 +36,22 @@ export class LoginPage {
 
   doLogin() {
     this.load = this.loadingCtrl.create({
-      content: 'Iniciando sesión'
+      content: 'Iniciando sesión',
+      duration: 2000
     });
-    this.load.present();
+    // this.load.present();
     
     let body = this.loginFormGroup.value;
     body['aplicacion'] = this.appName;
 
+    // this.votantes.login(body).subscribe(response => {
+    //   console.log(response);
+    //   this.load.dismiss();
+    //   this.navCtrl.setRoot('TabsPage');
+    // });
+
+    
+    this.navCtrl.setRoot('TabsPage');
   }
 
 }
