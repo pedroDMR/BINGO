@@ -1,0 +1,17 @@
+<ion-content padding>
+
+  <h1>Inicio de sesión</h1>
+
+  <form [formGroup]="loginFormGroup" (ngSubmit)="doLogin()">
+    <ion-list>
+      <ion-item>
+        <ion-label stacked>Número de teléfono</ion-label>
+        <ion-input formControlName="numero_cel" type="tel"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <button ion-button block type="submit" [disabled]="!loginFormGroup.valid" color="primary">Iniciar sesión</button>
+
+  </form>
+
+</ion-content>
