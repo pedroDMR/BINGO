@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class VotantesProvider {
 
-  private _baseUrl: string = 'https://c4958856.ngrok.io';
+  private _baseUrl: string = 'https://6828f125.ngrok.io';
 
   constructor(private http: Http) {
     
@@ -33,7 +33,7 @@ export class VotantesProvider {
   }
 
   login(body: any) {
-    let url = this._baseUrl + '';
+    let url = this._baseUrl + '/servicioBingo/svcRol';
     url += '?numero_cel=' + body.numero_cel + '&aplicacion=' + body.aplicacion;
     console.log(url);
     return this.http.get(url).map(res => res.json());
