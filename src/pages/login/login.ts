@@ -26,6 +26,8 @@ export class LoginPage {
     private sim: Sim,
     private androidPermissions: AndroidPermissions) {
 
+      this.loadForm();
+
       this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE).then(
         () => this.getInfoSim(),
         (err) => this.showMessage('Permission denied: ' + err)
@@ -39,7 +41,16 @@ export class LoginPage {
 
   private getInfoSim(): void {
     this.sim.getSimInfo().then(
-      (info) => this.showMessage('Sim info: ' + info.cards[0].phoneNumber),
+      (info) => {
+        if (info.cards[0].phoneNumber != null && info.cards[0].phoneNumber != '') {
+          
+          let infoNumber: string = info.cards[0].phoneNumber;
+          infoNumber = infoNumber.slice(2);
+
+          this.loginFormGroup.patchValue({numero_cel: infoNumber});
+          this.loginFormGroup.get('numero_cel').disable();
+        }
+      },
       (err) => this.showMessage('Unable to get sim info: ' + err)
     );
   }
@@ -48,6 +59,7 @@ export class LoginPage {
     this.loginFormGroup = this.fb.group({
       numero_cel: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(10)]],
     });
+
   }
 
   private showMessage(message: string): void {
