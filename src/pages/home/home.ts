@@ -148,10 +148,11 @@ export class HomePage {
   searchUser(ev: any) {
     this.users = this.usersQuery;
     this.searchQuery = ev.target.value;
+    console.log(this.users);
 
     if (this.searchQuery && this.searchQuery.trim() != '') {
       this.users = this.users.filter((item) => {
-        return (item.nombre.toLowerCase().indexOf(this.searchQuery.toLowerCase()) > -1);
+        return item.consecutivo_def == this.searchQuery.toLowerCase();;
       });
     }
   }

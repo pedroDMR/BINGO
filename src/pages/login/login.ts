@@ -79,6 +79,7 @@ export class LoginPage {
     
     let body = this.loginFormGroup.value;
     body['aplicacion'] = this.appName;
+    console.log(body);
 
     this.votantes.login(body).subscribe(response => {
       console.log(response);
