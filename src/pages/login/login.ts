@@ -15,6 +15,25 @@ export class LoginPage {
   loginFormGroup: FormGroup;
   private appName: string = 'BINGO';
   private load: Loading;
+  public municipios: Array<any> = [
+    {id: 1, municipio: 'Balancan'},
+    {id: 1, municipio: 'Cárdenas'},
+    {id: 1, municipio: 'Centla'},
+    {id: 1, municipio: 'Centro'},
+    {id: 1, municipio: 'Comalcalco'},
+    {id: 1, municipio: 'Cunduacán'},
+    {id: 1, municipio: 'Emiliano Zapata'},
+    {id: 1, municipio: 'Huimanguillo'},
+    {id: 1, municipio: 'Jalapa'},
+    {id: 1, municipio: 'Jalpa de Méndez'},
+    {id: 1, municipio: 'Jonuta'},
+    {id: 1, municipio: 'Macuspana'},
+    {id: 1, municipio: 'Nacajuca'},
+    {id: 1, municipio: 'Paraíso'},
+    {id: 1, municipio: 'Tacotalpa'},
+    {id: 1, municipio: 'Teapa'},
+    {id: 1, municipio: 'Tenosique'}
+  ]
 
   constructor(
     public navCtrl: NavController, 
@@ -58,6 +77,9 @@ export class LoginPage {
   loadForm() {
     this.loginFormGroup = this.fb.group({
       numero_cel: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(10)]],
+      seccion: ['', Validators.required],
+      casilla: ['', Validators.required],
+      municipio: ['', Validators.required]
     });
 
   }

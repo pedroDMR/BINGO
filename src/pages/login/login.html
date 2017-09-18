@@ -8,6 +8,20 @@
         <ion-label stacked>Número de teléfono</ion-label>
         <ion-input formControlName="numero_cel" type="tel"></ion-input>
       </ion-item>
+      <ion-item>
+        <ion-label stacked>Sección</ion-label>
+        <ion-input formControlName="seccion" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Casilla</ion-label>
+        <ion-input formControlName="casilla" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Municipio</ion-label>
+        <ion-select formControlName="municipio">
+          <ion-option *ngFor="let item of municipios" value="{{ item.id }}">{{ item.municipio }}</ion-option>
+        </ion-select>
+      </ion-item>
     </ion-list>
 
     <button ion-button block type="submit" [disabled]="!loginFormGroup.valid" color="primary">Iniciar sesión</button>

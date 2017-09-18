@@ -33,8 +33,9 @@ export class VotantesProvider {
   }
 
   login(body: any) {
-    let url = this._baseUrl + '/servicioBingo/svcRol';
+    let url = this._baseUrl + '/servicioBingo/svcUserApp';
     url += '?numero_cel=' + body.numero_cel + '&aplicacion=' + body.aplicacion;
+    url += '&seccion=' + body.seccion + '&casilla=' + body.casilla + '&municipio=' + body.municipio;
     console.log(url);
     return this.http.get(url).map(res => res.json());
   }
