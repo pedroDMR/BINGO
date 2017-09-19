@@ -1,5 +1,12 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Loading, ToastController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import {
+  IonicPage, 
+  NavController, 
+  NavParams, 
+  LoadingController, 
+  Loading, 
+  ToastController, 
+  TextInput } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VotantesProvider } from '../../providers/votantes/votantes';
 import { Sim } from '@ionic-native/sim';
@@ -12,6 +19,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
 })
 export class LoginPage {
 
+  @ViewChild('tel') tel : TextInput;
   loginFormGroup: FormGroup;
   private appName: string = 'BINGO';
   private load: Loading;
@@ -51,7 +59,6 @@ export class LoginPage {
         () => this.getInfoSim(),
         (err) => this.showMessage('Permission denied: ' + err)
       );
-
   }
 
   ionViewDidLoad() {
@@ -101,7 +108,7 @@ export class LoginPage {
     
     let body = this.loginFormGroup.value;
     body['aplicacion'] = this.appName;
-    console.log(body);
+    body['numero_cel'] = this.tel.value;
 
     this.votantes.login(body).subscribe(response => {
       console.log(response);
