@@ -147,28 +147,35 @@ export class HomePage {
             var index = this.users.indexOf(item);         
 
             /* 
-              Se obtiene la lista de usuarios almacenada en localStorage 
+              Se obtiene la lista de usuarios almacenada en Storage
               Después se procede a encontrar el index dentro de dicha lista del elemento 
               que se desea actualizar.
               Se actualiza el elemento              
               Se guarda la lista actualizada en localStorage
             */
-            let u: Array<any>  = JSON.parse(localStorage.getItem('users'));
-            var i = u.findIndex((el) => { return el.id == item.id; });
-            u[i].voto = 'S';
-            localStorage.setItem('users', JSON.stringify(u));
+            this.storage.get('users').then((val) => {
+              if (val != null) {
 
-            // Se procede a eliminar el elemento de la lista users
-            this.users.splice(index, 1);
+                let u: Array<any> = JSON.parse(val);
+                var i = u.findIndex((el) => { return el.id == item.id; });
+                u[i].voto = 'S';
+                this.storage.set('users', JSON.stringify(u));
 
-            this.votantesPrv.updateUser(item.id).subscribe(response => {
-              console.log(response);
-              let toast = this.toastCtrl.create({
-                message: 'El usuario ha votado',
-                duration: 2000,
-                position: 'bottom'
-              });
-              toast.present();
+                // Se procede a eliminar el elemento de la lista users
+                this.users.splice(index, 1);
+                // Se actualiza la lista auxiliar usada para la búsqueda
+                this.usersQuery = this.users;
+
+                this.votantesPrv.updateUser(item.id).subscribe(response => {
+                  console.log(response);
+                  let toast = this.toastCtrl.create({
+                    message: 'El usuario ha votado',
+                    duration: 2000,
+                    position: 'bottom'
+                  });
+                  toast.present();
+                });
+              }
             });
 
             this.swiped = false;
