@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VotantesProvider } from '../../providers/votantes/votantes';
 import { Sim } from '@ionic-native/sim';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -51,7 +52,8 @@ export class LoginPage {
     private toasCtrl: ToastController,
     private votantes: VotantesProvider,
     private sim: Sim,
-    private androidPermissions: AndroidPermissions) {
+    private androidPermissions: AndroidPermissions,
+    private storage: Storage) {
 
       this.loadForm();
 
@@ -115,7 +117,10 @@ export class LoginPage {
       this.load.dismiss();
 
       if (response.login) {
+
+        localStorage.setItem('userLogin', JSON.stringify(body));
         this.navCtrl.setRoot('TabsPage');
+
       } else {
         let toast = this.toasCtrl.create({
           duration: 2000,

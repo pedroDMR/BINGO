@@ -8,6 +8,7 @@ import {
   ItemSliding, 
   ToastController } from 'ionic-angular';
 
+import { Storage } from '@ionic/storage';
 import { VotantesProvider } from '../../providers/votantes/votantes';
 
 @IonicPage()
@@ -26,8 +27,8 @@ export class HomePage {
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, 
               public loadingCtrl: LoadingController,
               public toastCtrl: ToastController,
-              private votantesPrv: VotantesProvider) {
-  
+              private votantesPrv: VotantesProvider,
+              private storage: Storage) {
     // this.loadUsers();
   }
 
@@ -41,38 +42,83 @@ export class HomePage {
     });
     this.load.present();
 
-    if (localStorage.getItem('users')) {
+    let userLogin = JSON.parse(localStorage.getItem('userLogin'));
 
-      this.users = JSON.parse(localStorage.getItem('users'));
+    this.storage.get('users').then((val) => {
+      if (val != null) {
+        this.getUsersFromStorage(userLogin, val);
+      } else {
+        this.getUsersFromFile(userLogin);
+      }
+    }).catch((err) => {
+      console.log('Ocurrió un error: ' + err.message);
+    });
+
+    // if (localStorage.getItem('users')) {
+
+    //   this.users = JSON.parse(localStorage.getItem('users'));
+
+    //   this.users = this.users.filter((item) => {
+    //     return (item.voto == 'N' && item.casilla == userLogin.casilla && item.seccion == userLogin.seccion && item.municipio == userLogin.municipio);
+    //   });
+
+    //   this.usersQuery = this.users;
+    //   this.load.dismiss();
+
+    // } else {
+      
+    //   this.votantesPrv.getUsers().subscribe(response => {      
+    //     console.log('cargados desde el archivo..');
+    //     this.users = response;
+        
+    //     console.log(this.users);
+
+    //     this.users = this.users.filter((item) => {
+    //       return (item.voto == 'N' && item.casilla == userLogin.casilla && item.seccion == userLogin.seccion && item.municipio == userLogin.municipio);
+    //     });
+
+    //     console.log(this.users);
+
+    //     this.usersQuery = this.users;
+    //     // localStorage.setItem('users', JSON.stringify(response));
+    //     this.storage.set('users', JSON.stringify(response));
+    //     this.load.dismiss();
+    //   });
+
+    // }
+
+  }
+
+  private getUsersFromStorage(userLogin: any, users: any) {
+    console.log('cargados desde storage..');
+    this.users = JSON.parse(users);
+    
+    this.users = this.users.filter((item) => {
+      return (item.voto == 'N' && item.casilla == userLogin.casilla && item.seccion == userLogin.seccion && item.municipio == userLogin.municipio);
+    });
+
+    this.usersQuery = this.users;
+    this.load.dismiss();
+  }
+
+  private getUsersFromFile(userLogin: any) {
+    this.votantesPrv.getUsers().subscribe(response => {      
+      console.log('cargados desde el archivo..');
+      this.users = response;
+      
+      // console.log(this.users);
 
       this.users = this.users.filter((item) => {
-        return item.voto == 'N';
+        return (item.voto == 'N' && item.casilla == userLogin.casilla && item.seccion == userLogin.seccion && item.municipio == userLogin.municipio);
       });
+
+      // console.log(this.users);
 
       this.usersQuery = this.users;
+      // localStorage.setItem('users', JSON.stringify(response));
+      this.storage.set('users', JSON.stringify(response));
       this.load.dismiss();
-
-    } else {
-      
-      this.votantesPrv.getUsers().subscribe(response => {      
-        console.log('cargados desde el archivo..');
-        this.users = response;
-
-        console.log(this.users.length);
-        
-        this.users = this.users.filter((item) => {
-          return item.voto == 'N';
-        });
-
-        console.log(this.users.length);
-
-        this.usersQuery = this.users;
-        localStorage.setItem('users', JSON.stringify(response));
-        this.load.dismiss();
-      });
-
-    }
-
+    });
   }
 
   onDrag(ev, item, slidingItem: ItemSliding) {
@@ -157,4 +203,11 @@ export class HomePage {
     }
   }
 
+  showMessage(message: string) {
+    let toast = this.toastCtrl.create({
+      duration: 2000,
+      message: message
+    });
+    toast.present();
+  }
 }

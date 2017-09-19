@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class VotantesProvider {
 
-  private _baseUrl: string = 'https://b8ea9cda.ngrok.io';
+  private _baseUrl: string = 'https://d6950396.ngrok.io';
 
   constructor(private http: Http) {
     
